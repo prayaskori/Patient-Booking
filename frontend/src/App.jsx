@@ -18,7 +18,7 @@ import {
   CalendarX
 } from 'lucide-react';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5247/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5247';
 
 export default function App() {
   // Booking Form State
@@ -74,7 +74,7 @@ export default function App() {
     setNewlyBookedDetails(null);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/appointments`, {
+      const response = await fetch(`${API_URL}/api/appointments`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -129,7 +129,7 @@ export default function App() {
     setAppointments([]);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/patients/${targetId}/appointments`);
+      const response = await fetch(`${API_URL}/api/patients/${targetId}/appointments`);
       const data = await response.json();
 
       if (response.ok) {
@@ -156,7 +156,7 @@ export default function App() {
   // Cancel Appointment Handler
   const handleCancelAppointment = async (appointmentId) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/appointments/${appointmentId}`, {
+      const response = await fetch(`${API_URL}/api/appointments/${appointmentId}`, {
         method: 'DELETE',
       });
 
