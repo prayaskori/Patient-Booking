@@ -1,0 +1,37 @@
+name: Deploy Backend to Azure App Service
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  AZURE_WEBAPP_NAME: caresync-api # REPLACE this with your actual Azure App Service name in the Azure Portal
+  WORKING_DIRECTORY: backend
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up .NET Core
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restore and Build Backend
+      run: |
+        dotnet restore ${{ env.WORKING_DIRECTORY }}
+        dotnet build ${{ env.WORKING_DIRECTORY }} --configuration Release
+
+    - name: Publish Backend
+      run: dotnet publish ${{ env.WORKING_DIRECTORY }} -c Release -o ${{ env.WORKING_DIRECTORY }}/publish
+
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v3
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }} # Configure this in your GitHub repository Secrets
+        package: ${{ env.WORKING_DIRECTORY }}/publish
