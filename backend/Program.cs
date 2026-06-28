@@ -19,28 +19,17 @@ builder.Services.AddCors(options =>
 
 // Retrieve connection string from Environment Variables or AppSettings
 var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL") 
-                      ?? Environment.GetEnvironmentVariable("CONNECTION_STRING")
-                      ?? builder.Configuration.GetConnectionString("DefaultConnection");
+    ?? builder.Configuration.GetConnectionString("DefaultConnection");
 
-// Parse Railway postgres:// URI format if present
-if (connectionString != null && connectionString.StartsWith("postgres://", StringComparison.OrdinalIgnoreCase))
+if (connectionString != null && (connectionString.StartsWith("postgresql://") || 
+    connectionString.StartsWith("postgres://")))
 {
-    try
-    {
-        var databaseUri = new Uri(connectionString);
-        var userInfo = databaseUri.UserInfo.Split(':');
-        var user = userInfo[0];
-        var password = userInfo.Length > 1 ? userInfo[1] : "";
-        var host = databaseUri.Host;
-        var port = databaseUri.Port == -1 ? 5432 : databaseUri.Port;
-        var database = databaseUri.LocalPath.TrimStart('/');
-        
-        connectionString = $"Host={host};Port={port};Database={database};Username={user};Password={password};SSL Mode=Require;Trust Server Certificate=true;";
-    }
-    catch (Exception ex)
-    {
-        Console.Error.WriteLine($"Error parsing DATABASE_URL URI: {ex.Message}");
-    }
+    var uri = new Uri(connectionString);
+    var userInfo = uri.UserInfo.Split(':');
+    connectionString = $"Host={uri.Host};Port={uri.Port};" +
+        $"Database={uri.AbsolutePath.TrimStart('/')};" +
+        $"Username={userInfo[0]};Password={userInfo[1]};" +
+        $"SSL Mode=Require;Trust Server Certificate=true";
 }
 
 // Configure EF Core DbContext with dynamic fallback (SQLite locally, PostgreSQL in Prod/Azure/Railway)
