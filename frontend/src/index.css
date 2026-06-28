@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #F8FAFC;
+    color: #1E293B;
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+/* 3D Mesh Aurora Background Animation (8s ease infinite alternate) */
+@keyframes aurora {
+  0% {
+    background-position: 0% 0%, 100% 100%, 50% 50%;
+  }
+  50% {
+    background-position: 50% 100%, 100% 0%, 0% 50%;
+  }
+  100% {
+    background-position: 100% 0%, 0% 100%, 50% 50%;
+  }
+}
+
+.aurora-bg {
+  background: 
+    radial-gradient(circle at 15% 15%, #EFF6FF 0%, transparent 55%),
+    radial-gradient(circle at 85% 85%, #DBEAFE 0%, transparent 55%),
+    radial-gradient(circle at 50% 50%, #E0F2FE 0%, transparent 60%);
+  background-size: 200% 200%;
+  background-repeat: no-repeat;
+  animation: aurora 8s ease infinite alternate;
+  background-attachment: fixed;
+  background-color: #F8FAFC;
+}
+
+/* Glassmorphism Frosted Cards */
+.glass-card {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px rgba(15, 82, 186, 0.08);
+}
+
+.glass-card-hover:hover {
+  border-color: rgba(15, 82, 186, 0.15);
+  box-shadow: 0 12px 40px rgba(15, 82, 186, 0.12);
+  transform: translateY(-1px);
+}
+
+/* Glass Navbar Header */
+.glass-header {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+/* Form Inputs */
+.glass-input {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid #BFDBFE;
+  border-radius: 10px;
+  color: #1E293B;
+  transition: all 0.2s ease-in-out;
+}
+
+.glass-input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.8);
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* Gradient Primary Action Button */
+.gradient-btn {
+  background: linear-gradient(135deg, #1D4ED8, #0EA5E9);
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(29, 78, 216, 0.3);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gradient-btn:hover {
+  transform: scale(1.01);
+  box-shadow: 0 6px 20px rgba(29, 78, 216, 0.4);
+}
+
+.gradient-btn:active {
+  transform: scale(0.99);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(241, 245, 249, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(191, 219, 254, 0.8);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.5);
+}
