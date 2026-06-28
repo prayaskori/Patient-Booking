@@ -1,0 +1,10 @@
+{
+  "build": {
+    "builder": "NIXPACKS",
+    "buildCommand": "cd backend && dotnet publish -c Release -o out"
+  },
+  "deploy": {
+    "startCommand": "cd backend/out && dotnet PatientBooking.Api.dll",
+    "restartPolicyType": "ON_FAILURE"
+  }
+}

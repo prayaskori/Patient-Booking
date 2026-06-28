@@ -1,9 +1,0 @@
-{
-  "build": {
-    "builder": "NIXPACKS"
-  },
-  "deploy": {
-    "startCommand": "dotnet CareSync.API.dll",
-    "restartPolicyType": "ON_FAILURE"
-  }
-}
