@@ -261,10 +261,10 @@ export default function App() {
                     <User className="absolute left-3 top-1/2 -translate-y-1/2 text-[#64748B] w-5 h-5" />
                     <input 
                       type="text"
-                      placeholder="John Doe"
                       value={patientName}
                       onChange={(e) => setPatientName(e.target.value)}
                       className="w-full pl-10 pr-4 py-2.5 glass-input"
+                      data-testid="patient-name-input"
                       required
                     />
                   </div>
@@ -277,10 +277,10 @@ export default function App() {
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-[#64748B] w-5 h-5" />
                     <input 
                       type="email"
-                      placeholder="john.doe@example.com"
                       value={patientEmail}
                       onChange={(e) => setPatientEmail(e.target.value)}
                       className="w-full pl-10 pr-4 py-2.5 glass-input"
+                      data-testid="patient-email-input"
                       required
                     />
                   </div>
@@ -295,9 +295,10 @@ export default function App() {
                       value={doctorName}
                       onChange={(e) => setDoctorName(e.target.value)}
                       className="w-full pl-10 pr-4 py-2.5 glass-input appearance-none bg-white/60 cursor-pointer"
+                      data-testid="doctor-select"
                       required
                     >
-                      <option value="" disabled>Select a practitioner...</option>
+                      <option value="" disabled></option>
                       <option value="Dr. Alice Smith">Dr. Alice Smith (General Medicine)</option>
                       <option value="Dr. Bob Johnson">Dr. Bob Johnson (Cardiology)</option>
                       <option value="Dr. Carol White">Dr. Carol White (Pediatrics)</option>
@@ -316,6 +317,7 @@ export default function App() {
                       value={appointmentDateTime}
                       onChange={(e) => setAppointmentDateTime(e.target.value)}
                       className="w-full pl-10 pr-4 py-2.5 glass-input"
+                      data-testid="appointment-datetime-input"
                       required
                     />
                   </div>
@@ -325,6 +327,7 @@ export default function App() {
                 <button 
                   type="submit"
                   disabled={isBooking}
+                  data-testid="submit-booking-btn"
                   className="w-full py-3 text-white font-semibold gradient-btn flex items-center justify-center gap-2 mt-6 cursor-pointer disabled:opacity-50"
                 >
                   {isBooking ? (
@@ -354,7 +357,7 @@ export default function App() {
                   <div className="flex justify-between items-center text-sm">
                     <span className="text-[#64748B] text-[12px] uppercase tracking-wider font-semibold">Patient ID:</span>
                     <div className="flex items-center gap-2">
-                      <span className="font-bold text-[#1D4ED8] font-mono text-base">{newlyBookedDetails.patientId}</span>
+                      <span className="font-bold text-[#1D4ED8] font-mono text-base" data-testid="booked-patient-id">{newlyBookedDetails.patientId}</span>
                       <button 
                         onClick={() => copyToClipboard(newlyBookedDetails.patientId.toString())}
                         className="p-1 hover:bg-white/80 rounded transition text-[#64748B] hover:text-[#1E293B]"
@@ -390,16 +393,17 @@ export default function App() {
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#64748B] w-5 h-5" />
                   <input 
                     type="number"
-                    placeholder="Enter Patient ID (e.g. 1)"
                     value={searchId}
                     onChange={(e) => setSearchId(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && fetchPatientAppointments()}
                     className="w-full pl-10 pr-4 py-2.5 rounded-[10px] glass-input font-mono"
+                    data-testid="search-patient-id-input"
                   />
                 </div>
                 <button 
                   onClick={() => fetchPatientAppointments()}
                   disabled={isSearching}
+                  data-testid="search-btn"
                   className="px-6 text-white font-semibold gradient-btn flex items-center justify-center gap-2 cursor-pointer"
                 >
                   {isSearching ? (
@@ -496,6 +500,8 @@ export default function App() {
                         return (
                           <div 
                             key={app.id} 
+                            data-testid="appointment-item"
+                            data-status={status}
                             className="p-4 rounded-[10px] bg-white/50 border border-white/50 glass-card-hover transition-all flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
                           >
                             <div className="space-y-1.5">
@@ -528,6 +534,7 @@ export default function App() {
                             {status === 'Scheduled' && (
                               <button 
                                 onClick={() => handleCancelAppointment(app.id)}
+                                data-testid="cancel-appointment-btn"
                                 className="w-full md:w-auto px-4 py-2 text-xs font-semibold text-[#EF4444] hover:text-white bg-white/60 hover:bg-[#EF4444] rounded-[10px] border border-red-200 hover:border-[#EF4444] active:scale-95 transition-all flex items-center justify-center gap-1 cursor-pointer"
                               >
                                 <XCircle className="w-3.5 h-3.5" />
@@ -578,6 +585,7 @@ export default function App() {
         {toasts.map(toast => (
           <div 
             key={toast.id} 
+            data-testid={toast.type === 'error' ? 'toast-error' : 'toast-success'}
             className={`p-4 rounded-xl flex items-center gap-3 shadow-lg border transition-all duration-300 transform translate-y-0 scale-100 ${
               toast.type === 'error' 
                 ? 'bg-[#FEE2E2] text-[#991B1B] border-[#FCA5A5]/30' 
