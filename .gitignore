@@ -37,3 +37,7 @@ Thumbs.db
 *.ntvs*
 *.njsproj
 *.sln.docstates
+
+# --- Local Publish ---
+out/
+
