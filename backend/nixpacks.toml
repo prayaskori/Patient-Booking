@@ -1,2 +1,11 @@
+[phases.setup]
+nixPkgs = ["dotnetCorePackages.sdk_8_0"]
+
+[phases.build]
+cmds = ["dotnet publish -c Release -o out"]
+
+[start]
+cmd = "dotnet out/PatientBooking.Api.dll"
+
 [variables]
 ASPNETCORE_URLS = "http://0.0.0.0:8080"
